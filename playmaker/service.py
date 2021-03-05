@@ -94,7 +94,7 @@ class Play(object):
         if not found:
             print('Please install fdroid')
             sys.exit(1)
-        elif os.path.isfile('config.py'):
+        elif os.path.isfile('config.yml'):
             print('Repo already initalized, skipping init')
         else:
             p = Popen([self.fdroid_exe, 'init', '-v'], stdout=PIPE, stderr=PIPE)
@@ -103,13 +103,13 @@ class Play(object):
                 sys.stderr.write("error initializing fdroid repository " +
                                  stderr.decode('utf-8'))
                 sys.exit(1)
-        # backup config.py
+        # backup config.yml
         if self.debug:
-            print('Checking config.py file')
-        with open('config.py', 'r') as config_file:
+            print('Checking config.yml file')
+        with open('config.yml', 'r') as config_file:
             content = config_file.readlines()
-        with open('config.py', 'w') as config_file:
-            # copy all the original content of config.py
+        with open('config.yml', 'w') as config_file:
+            # copy all the original content of config.yml
             # if the file was not modified with custom values, do it
             modified = False
             for line in content:
@@ -118,10 +118,10 @@ class Play(object):
                 config_file.write(line)
             if not modified:
                 if self.debug:
-                    print('Appending playmaker data to config.py')
-                config_file.write('\n# playmaker\nrepo_name = "playmaker"\n'
-                                  'repo_description = "repository managed with '
-                                  'playmaker https://github.com/NoMore201/playmaker"\n')
+                    print('Appending playmaker data to config.yml')
+                config_file.write('\n# playmaker\nrepo_name : "playmaker"\n'
+                                  'repo_description : "repository managed with '
+                                  'playmaker https://github.com/solidhal/playmaker"\n')
 
         # ensure all folder and files are setup
         p = Popen([self.fdroid_exe, 'update', '--create-key', '-v'], stdout=PIPE, stderr=PIPE)

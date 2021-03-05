@@ -5,6 +5,7 @@
 .tern-project
 .ycm_extra_conf.py
 
+fdroid/
 dist/
 build/
 node_modules/

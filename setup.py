@@ -2,10 +2,10 @@ from setuptools import setup
 
 setup(name='playmaker',
       version='0.6.4',
-      description='Apk manager with web interface based on googleplay-api',
-      url='https://github.com/NoMore201/playmaker',
-      author='NoMore201',
-      author_email='domenico.iezzi.201@gmail.com',
+      description='Apk manager with web interface based on aurora stores GPlayApi',
+      url='https://github.com/SolidHal/playmaker',
+      author='SolidHal',
+      author_email='hal@halemmerich.com',
       license='MIT',
       packages=['playmaker'],
       package_data={
@@ -22,7 +22,7 @@ setup(name='playmaker',
             'pyaxmlparser',
             'pycryptodome',
             'tornado<5',
-            'gpapi>=0.4.4',
+            'pyjnius',
             'tornado-crontab'
       ],
       scripts=['pm-server']

@@ -7,6 +7,7 @@ USER root
 
 ENV FDROID_DIR /data/fdroid
 ENV PLAYMAKER_DIR /opt/playmaker
+ENV GAPI_DIR /opt/gapi
 ENV DEBIAN_FRONTEND noninteractive
 
 
@@ -19,9 +20,9 @@ RUN groupadd -g 999 pmuser && \
 
 RUN mkdir -p $FDROID_DIR
 RUN mkdir -p $PLAYMAKER_DIR
+RUN mkdir -p $GAPI_DIR
 
-RUN chown pmuser:pmuser /data
-RUN chown pmuser:pmuser $FDROID_DIR
+RUN chown -R pmuser:pmuser /data
 
 # Packages
 #######################
@@ -38,6 +39,7 @@ RUN apt-get update && \
     libxml2-dev \
     libxslt1-dev \
     openjdk-11-jdk-headless \
+    protobuf-compiler \
     virtualenv \
     wget \
     unzip \
@@ -69,6 +71,12 @@ RUN echo 'y' | /opt/android-sdk-linux/tools/bin/sdkmanager --sdk_root=/opt/andro
 
 RUN echo 'y' | rm -rf tools
 
+# GAPI setup
+#######################
+WORKDIR $GAPI_DIR
+RUN git clone  https://github.com/SolidHal/googleplay-api .
+RUN python3 setup.py build
+RUN pip3 install -e .
 
 # Playmaker setup
 #######################
@@ -89,11 +97,7 @@ RUN mkdir -p /usr/local/share/doc/fdroidserver/examples && \
 # Finalize
 #######################
 
-RUN chown -R pmuser:pmuser /data/fdroid
-
 USER pmuser
-ENV FDROID_DIR /data/fdroid
-ENV PLAYMAKER_DIR /opt/playmaker
 WORKDIR $FDROID_DIR
 VOLUME $FDROID_DIR
 
